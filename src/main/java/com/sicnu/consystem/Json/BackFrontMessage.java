@@ -29,6 +29,12 @@ public class BackFrontMessage {
         this.setObject(object);
     }
 
+    public BackFrontMessage(StatusEnum statusEnum, String mesg, Object object) {
+        this.setObject(object);
+        this.setMsg(mesg);
+        this.setStatus(statusEnum.getSta());
+    }
+
     public int getStatus() {
         return status;
     }

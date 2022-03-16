@@ -1,6 +1,8 @@
 <template>
-  <div class="about">
-    <h1>This is an about page 测试</h1>
+  <div id="main">
+    <!-- 这是main页!s -->
+    <router-view></router-view>
+
   </div>
 </template>
 
@@ -23,7 +25,9 @@
 
     mounted() {},
 
-    methods: {},
+    methods: {
+
+    },
 
     watch: {}
 
@@ -31,7 +35,8 @@
 
 </script>
 <style lang='less' scoped>
-  .about{
-    background-color: red;
-  }
+#main{
+  height: 670px;
+  // background-color: red;
+}
 </style>

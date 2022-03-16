@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page 测试</h1>
+  <div>
+    Create By Pan@2022
   </div>
 </template>
 
@@ -11,7 +11,7 @@
     props:[''],
     data () {
       return {
-
+        
       };
     },
 
@@ -30,8 +30,6 @@
   }
 
 </script>
-<style lang='less' scoped>
-  .about{
-    background-color: red;
-  }
+<style lang='' scoped>
+
 </style>

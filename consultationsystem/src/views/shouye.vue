@@ -1,6 +1,6 @@
 <template>
-  <div class="about">
-    <h1>This is an about page 测试</h1>
+  <div>
+    这是首页shouyed
   </div>
 </template>
 
@@ -30,8 +30,6 @@
   }
 
 </script>
-<style lang='less' scoped>
-  .about{
-    background-color: red;
-  }
+<style lang='' scoped>
+
 </style>

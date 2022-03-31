@@ -2,7 +2,8 @@ package com.sicnu.consystem.Util;
 
 public enum StatusEnum {
     SUCCESS(200,"Success"),
-    FIAL(500,"Fial")
+    FIAL(500,"Fial"),
+    NOTFOUND(404,"NotFound")
     ;
     private int sta;
     private String s;

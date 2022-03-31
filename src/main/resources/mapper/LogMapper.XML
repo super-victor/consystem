@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sicnu.consystem.Mapper.LogMapper">
+    <delete id="deleteLog">
+        delete from log where lid=#{id}
+    </delete>
+
+    <select id="getAllLogs" resultType="com.sicnu.consystem.Pojo.Log">
+        select * from log;
+    </select>
+    <select id="getAllTypes" resultType="java.lang.String">
+        select  distinct type from log  ;
+    </select>
+    <select id="logid" resultType="java.lang.Integer">
+        select id from log ;
+    </select>
+</mapper>

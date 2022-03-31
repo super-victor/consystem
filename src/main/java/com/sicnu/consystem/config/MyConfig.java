@@ -1,9 +1,11 @@
 package com.sicnu.consystem.config;
 
 import com.sicnu.consystem.Intercep.MyInterceptor;
-import com.sicnu.consystem.Intercep.loginInterceptor;
+//import com.sicnu.consystem.Intercep.loginInterceptor;
+//import com.sicnu.consystem.Intercep.WebSocketInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import javax.annotation.Resource;
@@ -21,13 +23,22 @@ public class MyConfig extends WebMvcConfigurationSupport {
     @Resource
     MyInterceptor myInterceptor;
 
-    @Resource
-    com.sicnu.consystem.Intercep.loginInterceptor loginInterceptor;
+//    @Resource
+//    WebSocketInterceptor webSocketInterceptor;
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    }
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new MyInterceptor()).addPathPatterns("/*").excludePathPatterns("/login");
-        registry.addInterceptor(new loginInterceptor()).addPathPatterns("/login");
+        registry.addInterceptor(myInterceptor).addPathPatterns("/*")
+                .excludePathPatterns("/login")
+        .excludePathPatterns("");
+
+//        registry.addInterceptor(webSocketInterceptor).addPathPatterns();
+//        registry.addInterceptor(new loginInterceptor()).addPathPatterns("/login");
     }
 }
 

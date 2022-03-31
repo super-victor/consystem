@@ -18,6 +18,12 @@ public class BackFrontMessage {
     private Object object;
 
 
+    public BackFrontMessage(StatusEnum statusEnum,String msg){
+        this.status=statusEnum.getSta();
+        this.msg=msg;
+        this.object=null;
+    }
+
     public BackFrontMessage(StatusEnum statusEnum,Object object){
         this.msg=statusEnum.getS();
         this.status=statusEnum.getSta();

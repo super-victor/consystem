@@ -3,6 +3,8 @@ package com.sicnu.consystem.Mapper;
 import com.sicnu.consystem.Pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @ClassName UserMapper
  * @Description
@@ -13,5 +15,17 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper{
     User getUserByNameAndPwd(String username,String password);
+
+    User getUserByUid(int uid);
+
+    int userAdd(User user);
+
+    int updateUser(User user);
+
+    int deleteUserByUid(int uid);
+
+    List<User> getUsersByCondition(String username, int forbid, int isAesc);
+
+    List<User>getAllUsers();
 }
 

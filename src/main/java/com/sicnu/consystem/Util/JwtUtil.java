@@ -37,10 +37,26 @@ public class JwtUtil {
         return jwtBuilder.compact();
     }
 
-    public String getuserfromtoken(String token){
+    public String generateToken(String username,Map<String,Object>claims){
+        JwtBuilder jwtBuilder= Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .signWith(SignatureAlgorithm.HS256,this.secret)
+                .setExpiration(new Date(new Date().getTime()+this.expreation))
+                .claim("r","y");
+        return jwtBuilder.compact();
+    }
+
+    public String parseToekn(String token){
         Claims claims=Jwts.parser().setSigningKey(secret)
                 .parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
+
+    public Claims parseToken(String token){
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+    }
+
 }
 

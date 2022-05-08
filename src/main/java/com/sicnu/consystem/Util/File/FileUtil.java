@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public interface FileUtil {
     String saveFile(MultipartFile multipartFile) throws IOException;
+    String saveImgFile(MultipartFile multipartFile) throws IOException;
     boolean deleteFile(String path);
     String doowLoadFile(HttpServletResponse response, String filename) throws FileNotFoundException, FileOptionFailureException;
 }

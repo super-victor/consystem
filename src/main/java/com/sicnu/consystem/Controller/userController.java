@@ -36,12 +36,13 @@ public class userController {
     @Resource
     nativeFileUtil fileUtil;
 
+
+
     @PostMapping("/addAvatarImg")
     public BackFrontMessage avatarImg(@RequestParam("file") MultipartFile file){
         String s = null;
         try {
             s = fileUtil.saveFile(file);
-//            System.out.println(s);
             if (s==null){
                 return new BackFrontMessage(StatusEnum.FIAL,"上传失败",null);
             }else {
@@ -66,7 +67,7 @@ public class userController {
             @RequestParam String email,
             @RequestParam String username,
             @RequestParam String phone,
-            @RequestParam boolean isadmin,
+            @RequestParam int isadmin,
             @RequestParam String avatarurl
     ){
         User user=new User();
@@ -101,8 +102,8 @@ public class userController {
             @RequestParam String username,
             @RequestParam String phone,
             @RequestParam int uid,
-            @RequestParam boolean isadmin,
-            @RequestParam boolean isforbid
+            @RequestParam int isadmin,
+            @RequestParam int isforbid
 
     ){
         User user=new User();

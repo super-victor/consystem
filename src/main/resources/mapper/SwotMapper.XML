@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sicnu.consystem.Mapper.SwotMapper">
+
+    <insert id="addSwot" parameterType="com.sicnu.consystem.Pojo.Swot" useGeneratedKeys="true" keyProperty="sid">
+        insert into swot (swotname,uid) values (#{swotname},#{uid});
+    </insert>
+    <insert id="addSwotContent">
+        insert into swotcontent (sid,type,content) values
+        <foreach collection="param2" item="m" index="index" separator="," close=";">
+            (#{param1},#{m.type},#{m.content})
+        </foreach>
+    </insert>
+    <select id="getAllSwot" resultType="com.sicnu.consystem.Pojo.Swot">
+        select * from swot where uid=#{uid}
+    </select>
+    <select id="getSwotAdvantege" resultType="java.lang.String">
+        SELECT swotcontent.content from swot,swotcontent
+        WHERE swot.sid=swotcontent.sid
+        and swot.uid=#{param1} and swot.sid=#{param2}
+        and swotcontent.type='advanteeg';
+    </select>
+    <select id="getSwotDisAdvantege" resultType="java.lang.String">
+        SELECT swotcontent.content from swot,swotcontent
+        WHERE swot.sid=swotcontent.sid
+        and swot.uid=#{param1} and swot.sid=#{param2}
+        and swotcontent.type='disadvanteeg';
+    </select>
+    <select id="getSwotOpportunity" resultType="java.lang.String">
+        SELECT swotcontent.content from swot,swotcontent
+        WHERE swot.sid=swotcontent.sid
+        and swot.uid=#{param1} and swot.sid=#{param2}
+        and swotcontent.type='opportunity';
+    </select>
+    <select id="getSwotThreaten" resultType="java.lang.String">
+        SELECT swotcontent.content from swot,swotcontent
+        WHERE swot.sid=swotcontent.sid
+        and swot.uid=#{param1} and swot.sid=#{param2}
+        and swotcontent.type='threaten';
+    </select>
+
+    <resultMap id="swot" type="com.sicnu.consystem.Pojo.Swot">
+        <result column="sid" property="sid"></result>
+        <collection property="advantege" resultMap="advantege">
+        </collection>
+        <collection property="disadvantege" resultMap="disadvantege"></collection>
+        <collection property="opportunity" resultMap="opportunity"></collection>
+        <collection property="threaten" resultMap="threaten"></collection>
+    </resultMap>
+
+    <resultMap id="advantege" type="string">
+        <result column="advantege"></result>
+    </resultMap>
+    <resultMap id="disadvantege" type="string">
+        <result column="disadvantege"></result>
+    </resultMap>
+    <resultMap id="opportunity" type="string">
+        <result column="opportunity"></result>
+    </resultMap>
+    <resultMap id="threaten" type="string">
+        <result column="threaten"></result>
+    </resultMap>
+</mapper>

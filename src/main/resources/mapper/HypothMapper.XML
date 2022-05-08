@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sicnu.consystem.Mapper.HypothMapper">
+
+    <insert id="addHypoty">
+        insert into hypoth (uid,hname,hypoth,evidence) values (#{uid},#{hname},#{hypoth},#{evidence});
+    </insert>
+    <update id="updateHypoth">
+        update hypoth set hname=#{hname},hypoth=#{hypoth},evidence=#{evidence} where hid=#{hid}
+    </update>
+    <delete id="deleteHypoth">
+        delete from hypoth where hid=#{hid}
+    </delete>
+    <select id="getAllHypoth" resultType="com.sicnu.consystem.Pojo.Hypoth">
+        select * from hypoth;
+    </select>
+</mapper>

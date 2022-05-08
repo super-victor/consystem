@@ -49,7 +49,8 @@ public class loginController {
             User user = loginService.login(username, password);
             if (user!=null){
                 String avatarurl = user.getAvatarurl();
-                    if (avatarurl.startsWith(fileUtil.getLocalPath())){
+                System.out.println("avatarurl = " + avatarurl);
+                if (avatarurl.startsWith(fileUtil.getLocalPath())){
 //                    user.setAvatarurl(serverConfig.getStaticResouceUrl()+avatarurl.substring(avatarurl.lastIndexOf("\\"),avatarurl.length()));
                         user.setAvatarurl(fileUtil.getNativeAvatarurl(avatarurl));
                     }

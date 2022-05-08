@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sicnu.consystem.Mapper.MeetingMapper">
+
+    <insert id="addmeeting" parameterType="com.sicnu.consystem.Pojo.Meeting" useGeneratedKeys="true" keyProperty="mid">
+        insert into meeting (name ,theme,remark,starttime,endtime,uid,username) values (#{name},#{theme}
+        ,#{remark},#{starttime},#{endtime},#{uid},#{username}
+        );
+    </insert>
+    <select id="getInMeeting" resultType="com.sicnu.consystem.Pojo.Meeting">
+        select * from meeting,attendee where meeting.mid=attendee.mid and  attendee.uid=#{uid}
+        and CURRENT_DATE>meeting.starttime and meeting.endtime>CURRENT_DATE;
+    </select>
+    <select id="getFutureMeeting" resultType="com.sicnu.consystem.Pojo.Meeting">
+        select * from meeting,attendee where meeting.mid=attendee.mid and  attendee.uid=#{uid}
+        and meeting.starttime>CURRENT_DATE;
+    </select>
+    <select id="getHistoryMeeting" resultType="com.sicnu.consystem.Pojo.Meeting">
+        select * from meeting,attendee where meeting.mid=attendee.mid and  attendee.uid=#{uid}
+        and CURRENT_DATE>meeting.endtime;
+    </select>
+    <select id="getAllUserByMid" resultType="com.sicnu.consystem.Pojo.User">
+        select uid,username,avatarurl from user where  uid in (select  uid from  attendee where mid=#{mid});
+    </select>
+</mapper>

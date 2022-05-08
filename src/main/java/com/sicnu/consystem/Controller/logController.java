@@ -3,6 +3,7 @@ package com.sicnu.consystem.Controller;
 import com.sicnu.consystem.Json.BackFrontMessage;
 import com.sicnu.consystem.Pojo.Log;
 import com.sicnu.consystem.Service.LogService;
+import com.sicnu.consystem.Util.File.nativeFileUtil;
 import com.sicnu.consystem.Util.StatusEnum;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,8 @@ public class logController {
 
     @Resource
     LogService logService;
+
+
 
     @GetMapping("/getAllLogs")
     public BackFrontMessage getAllLogs(){

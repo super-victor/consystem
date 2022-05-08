@@ -10,13 +10,18 @@ spring:
   mvc:
     static-path-pattern: /**
 
-
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 931775308
+      max-request-size: 1000MB
 
 
 mybatis:
   mapper-locations: classpath:mapper/*.XML
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
 logging:
   level:
     com.sicnu.consystem.Mapper: debug

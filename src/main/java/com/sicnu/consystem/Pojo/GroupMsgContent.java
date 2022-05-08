@@ -23,6 +23,7 @@ public class GroupMsgContent implements Serializable {
     * 发送者的编号
     */
 
+
     private Integer fromId;
     /**
     * 发送者的昵称
@@ -50,6 +51,16 @@ public class GroupMsgContent implements Serializable {
     */
     private Integer messageTypeId;
 
+
+    private Integer mid;
+
+    public Integer getMid() {
+        return mid;
+    }
+
+    public void setMid(Integer mid) {
+        this.mid = mid;
+    }
 
     public Integer getId() {
         return id;
@@ -107,6 +118,7 @@ public class GroupMsgContent implements Serializable {
         this.messageTypeId = messageTypeId;
     }
 
+
     @Override
     public String toString() {
         return "GroupMsgContent{" +
@@ -117,9 +129,9 @@ public class GroupMsgContent implements Serializable {
                 ", createTime=" + createTime +
                 ", content='" + content + '\'' +
                 ", messageTypeId=" + messageTypeId +
+                ", mid=" + mid +
                 '}';
     }
-
     /**
      * 将数据库实体转化为Excel的数据实体
      * @param groupMsgContent

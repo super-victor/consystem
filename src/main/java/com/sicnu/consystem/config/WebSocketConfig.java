@@ -27,9 +27,9 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import javax.servlet.http.Cookie;
+import java.net.URI;
+import java.util.*;
 
 /**
  * @ClassName WebSocketConfig
@@ -48,40 +48,45 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Resource
     UserMapper userMapper;
 
+
+//    List<Map<String,String>>userlist=new ArrayList<>();
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/ep").addInterceptors()
+        registry.addEndpoint("/ws/ep").addInterceptors(new HttpHandShakeInterceptor())
                 .setAllowedOrigins("*").withSockJS();
 
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic","queue");
+        registry.enableSimpleBroker("/topic", "queue");
+
     }
+
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         ChannelInterceptor channelInterceptor=new ChannelInterceptor() {
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                System.out.println("before");
-                String token = StompHeaderAccessor.wrap(message).getFirstNativeHeader("token");
-                if (token!=null){
-                    jwtUtil.parseToken(token);
-                    Claims claims = jwtUtil.parseToken(token);
-                    int id =(int) claims.get("id");
-                    User userByUid = userMapper.getUserByUid(id);
-                    if (userByUid!=null) {
-                        UserAuthenticationUtil.setCurrentUser(userByUid);
-                    }
-                }
+                System.out.println("发消息了");
+//                String token = StompHeaderAccessor.wrap(message).getFirstNativeHeader("token");
+//                if (token!=null){
+//                    jwtUtil.parseToken(token);
+//                    Claims claims = jwtUtil.parseToken(token);
+//                    int id =(int) claims.get("id");
+//                    User userByUid = userMapper.getUserByUid(id);
+//                    if (userByUid!=null) {
+//                        UserAuthenticationUtil.setCurrentUser(userByUid);
+//                    }
+//                }
                 return message;
             }
 
 //            @Override
 //            public void afterSendCompletion(Message<?> message, MessageChannel channel, boolean sent, Exception ex) {
-//                System.out.println("after afterSendCompletion");
+//                System.out.println("连接了");
 //                if (UserAuthenticationUtil.getCurrentUser()!=null){
 //                    UserAuthenticationUtil.removeUser();
 //                }
@@ -89,21 +94,103 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 //
 //            @Override
 //            public void afterReceiveCompletion(Message<?> message, MessageChannel channel, Exception ex) {
-//                System.out.println("after afterReceiveCompletion");
+//                System.out.println("连接了");
 //            }
 //
 //            @Override
 //            public void postSend(Message<?> message, MessageChannel channel, boolean sent) {
-//                System.out.println("postSend");
+//                System.out.println("连接了");
 //            }
 //
 //            @Override
 //            public Message<?> postReceive(Message<?> message, MessageChannel channel) {
-//                System.out.println("after postReceive");
+//                System.out.println("连接了");
 //                return message;
 //            }
         };
         registration.interceptors(channelInterceptor);
+    }
+}
+
+class HttpHandShakeInterceptor implements HandshakeInterceptor {
+
+    @Override
+    public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) throws Exception {
+        System.out.println("连接了 websocke");
+
+//        ServletServerHttpRequest servletServerHttpRequest=(ServletServerHttpRequest)serverHttpRequest;
+//
+//        String query = serverHttpRequest.getURI().getQuery();
+//        System.out.println("query = " + query);
+//        String substring = query.substring(0, query.lastIndexOf("&"));
+//        System.out.println("substring = " + substring);
+//        if (UserAuthenticationUtil.userLisut.contains(query)||UserAuthenticationUtil.userLisut.contains(substring)){
+//            System.out.println("已连接,拒绝再次拦截");
+//            return false;
+//        }
+//        UserAuthenticationUtil.userLisut.add(query);
+//        Map<String, String> stringStringMap = parseParameterMap(query);
+//        if ()
+//        String mid = stringStringMap.get("mid");
+//        String uid = stringStringMap.get("uid");
+//        System.out.println("mid = " + mid);
+//        System.out.println("uid = " + uid);
+//        System.out.println("query = " + query);
+//        HttpHeaders headers = servletServerHttpRequest.getHeaders();
+//        for (String s : headers.keySet()) {
+//            List<String> list = headers.get(s);
+//            System.out.println(s+":" + list);
+//        }
+//        List<String> list = headers.get("cookie");
+//        for (String s : list) {
+//            System.out.println("s = " + s);
+//        }
+//        ServletServerHttpRequest httpRequest = (ServletServerHttpRequest) serverHttpRequest;
+//
+//        Enumeration<String> message = ((ServletServerHttpRequest) serverHttpRequest).getServletRequest().getHeaderNames();
+//        while (message.hasMoreElements()){
+//            System.out.println("message.nextElement() = " + message.nextElement());
+//        }
+//        serverHttpRequest.
+//        webSocketHandler.
+
+//        boolean b = handleBeCookie(serverHttpRequest);
+        return true;
+    }
+
+    @Override
+    public void afterHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Exception e) {
+
+    }
+
+    public boolean handleBeCookie(ServerHttpRequest serverHttpRequest) {
+
+        if (serverHttpRequest instanceof ServletServerHttpRequest) {
+            ServletServerHttpRequest servletServerHttpRequest = (ServletServerHttpRequest) serverHttpRequest;
+
+//            Cookie[] cookies = servletServerHttpRequest.getServletRequest().getCookies();
+//            for (Cookie cookie : cookies) {
+//                System.out.println("cookie.getName() = " + cookie.getName());
+//            }
+//            Optional<Cookie> mid = Arrays.stream(cookies).filter(c -> c.getName().equals("mid")).findFirst();
+//            if (mid.isPresent()){
+//                String value = mid.get().getValue();
+//                System.out.println("mid = " + value);
+//            }
+        }
+        return false;
+    }
+
+    public Map<String, String> parseParameterMap(String queryString) {
+        Map<String, String> parameterMap = new HashMap<>();
+        String[] parameters = queryString.split("&");
+        for (String parameter : parameters) {
+            String[] paramPair = parameter.split("=");
+            if (paramPair.length == 2) {
+                parameterMap.put(paramPair[0], paramPair[1]);
+            }
+        }
+        return parameterMap;
     }
 }
 

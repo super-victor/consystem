@@ -1,5 +1,6 @@
 package com.sicnu.consystem.Util.File;
 
+import com.sicnu.consystem.Mapper.FileMapper;
 import com.sicnu.consystem.Util.Exception.FileNotFoundException;
 import com.sicnu.consystem.Util.Exception.FileOptionFailureException;
 import com.sicnu.consystem.Util.ServerConfig;
@@ -23,6 +24,9 @@ public class nativeFileUtil implements FileUtil{
     @Resource
     ServerConfig serverConfig;
 
+    @Resource
+    FileMapper fileMapper;
+
     public final static String localPath="D:\\Learning Materials\\web开发\\consystem\\src\\main\\resources\\static";
 
     public String getLocalPath(){
@@ -35,8 +39,39 @@ public class nativeFileUtil implements FileUtil{
 
     @Override
     public String saveFile(MultipartFile multipartFile) throws IOException {
+//        String res=null;
+//        File newfile=new File(localPath+"/"+multipartFile.getOriginalFilename());
+//        if (!newfile.exists()){
+//            newfile.mkdir();
+//            multipartFile.transferTo(newfile);
+//        }else {
+//            multipartFile.transferTo(newfile);
+//        }
+//        res=newfile.getAbsolutePath();
+//        return res;
         String res=null;
-        File newfile=new File(localPath+"/"+multipartFile.getOriginalFilename());
+        File newfile=new File(localPath+"/file/"+multipartFile.getOriginalFilename());
+        if (!newfile.exists()){
+            newfile.mkdir();
+            multipartFile.transferTo(newfile);
+        }else {
+            multipartFile.transferTo(newfile);
+        }
+        String fpath=newfile.getAbsolutePath();
+        String furl=serverConfig.getStaticResouceUrl()+"/file/"+fpath.substring(fpath.lastIndexOf("\\"),fpath.length());
+        com.sicnu.consystem.Pojo.File myFile=new com.sicnu.consystem.Pojo.File();
+        myFile.setFname(multipartFile.getOriginalFilename());
+        myFile.setFpath(fpath);
+        myFile.setFurl(furl);
+        int i = fileMapper.addFile(myFile);
+        System.out.println("i = " + i);
+        return res;
+    }
+
+    @Override
+    public String saveImgFile(MultipartFile multipartFile) throws IOException {
+        String res=null;
+        File newfile=new File(localPath+"/image/"+multipartFile.getOriginalFilename());
         if (!newfile.exists()){
             newfile.mkdir();
             multipartFile.transferTo(newfile);
@@ -44,8 +79,11 @@ public class nativeFileUtil implements FileUtil{
             multipartFile.transferTo(newfile);
         }
         res=newfile.getAbsolutePath();
+        res=serverConfig.getStaticResouceUrl()+"/image/"+res.substring(res.lastIndexOf("\\"),res.length());
         return res;
     }
+
+
 
     @Override
     public boolean deleteFile(String path) {

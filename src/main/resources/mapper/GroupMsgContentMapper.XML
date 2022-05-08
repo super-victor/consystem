@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sicnu.consystem.Mapper.GroupMsgContentMapper">
+
+    <insert id="addGroupMsgContent" parameterType="com.sicnu.consystem.Pojo.GroupMsgContent" useGeneratedKeys="true" keyProperty="id">
+        insert into msgcontent (fromid,fromname,fromprofile,content,messagetypeid,mid) values (
+        #{fromId},#{fromName},#{fromProfile},#{content},#{messageTypeId},#{mid}
+        );
+    </insert>
+    <select id="getAllGroupMsgContent" resultType="com.sicnu.consystem.Pojo.GroupMsgContent">
+        select * from  msgcontent where mid=#{mid}
+    </select>
+</mapper>

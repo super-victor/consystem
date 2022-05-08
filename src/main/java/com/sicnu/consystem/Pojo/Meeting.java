@@ -15,9 +15,11 @@ public class Meeting {
     String name;
     String theme;
     String  remark;
-    Date staarttime;
+    Date starttime;
     Date endtime;
     Date creatime;
+    String username;
+    int uid;
 
     @Override
     public String toString() {
@@ -26,10 +28,28 @@ public class Meeting {
                 ", name='" + name + '\'' +
                 ", theme='" + theme + '\'' +
                 ", remark='" + remark + '\'' +
-                ", staarttime=" + staarttime +
+                ", starttime=" + starttime +
                 ", endtime=" + endtime +
                 ", creatime=" + creatime +
+                ", username='" + username + '\'' +
+                ", uid=" + uid +
                 '}';
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public int getMid() {
@@ -64,12 +84,12 @@ public class Meeting {
         this.remark = remark;
     }
 
-    public Date getStaarttime() {
-        return staarttime;
+    public Date getStarttime() {
+        return starttime;
     }
 
-    public void setStaarttime(Date staarttime) {
-        this.staarttime = staarttime;
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
     }
 
     public Date getEndtime() {

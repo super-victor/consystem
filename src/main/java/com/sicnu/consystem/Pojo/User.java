@@ -16,8 +16,8 @@ public class User {
     String phone; //密码
     String email;
     String avatarurl;
-    boolean isforbid;
-    boolean isadmin;
+    int isforbid;
+    int isadmin;
 
 
     public String getAvatarurl() {
@@ -76,19 +76,19 @@ public class User {
         this.email = email;
     }
 
-    public boolean isIsforbid() {
+    public int getIsforbid() {
         return isforbid;
     }
 
-    public void setIsforbid(boolean isforbid) {
+    public void setIsforbid(int isforbid) {
         this.isforbid = isforbid;
     }
 
-    public boolean isIsadmin() {
+    public int getIsadmin() {
         return isadmin;
     }
 
-    public void setIsadmin(boolean isadmin) {
+    public void setIsadmin(int isadmin) {
         this.isadmin = isadmin;
     }
 

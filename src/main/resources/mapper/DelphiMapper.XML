@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.consystem.Mapper.DelphiMapper">
+    <insert id="addDelphi">
+        insert into delphi (uid,dname,type,delphia,delphib,delphic,delphid) values (
+        #{uid},#{dname},#{type},#{delphia},#{delphib},#{delphic},#{delphid}
+        );
+    </insert>
+    <insert id="addQuestionnaire" parameterType="com.sicnu.consystem.Pojo.Questionnaire" keyProperty="dpid" useGeneratedKeys="true">
+        insert into delphiqa (dpname) values (#{dpname});
+    </insert>
+    <insert id="addQuestionnaireContent">
+        insert into delphiqacontent (did,dpid) values (#{param1},#{param2});
+    </insert>
+    <insert id="addDelphiAnswer">
+        insert into delphiqanswer (uid,mid,dpid,answer) values (#{param1},#{param2},#{param3},#{param4});
+    </insert>
+    <update id="modifyDelphi">
+        update delphi set
+        <if test="dname!=null and dname!=''">dname=#{dname}</if>
+        <if test="delphia!=null and delphia!=''">, delphia=#{delphia}</if>
+        <if test="delphib!=null">, delphib=#{delphib}</if>
+        <if test="delphic!=null">, delphic=#{delphic}</if>
+        <if test="delphid!=null">, delphid=#{delphid}</if>
+        where did=#{did}
+    </update>
+    <delete id="deleteDelphi">
+        delete from delphi where did=#{did}
+    </delete>
+    <select id="getAllDelphi" resultType="com.sicnu.consystem.Pojo.Delphi">
+        select * from delphi where uid=#{uid}
+    </select>
+    <select id="getDelphiByConDiton" resultType="com.sicnu.consystem.Pojo.Delphi">
+        select * from where
+
+<!--        <if test="did!=null and did!=0">did=#{did}</if>-->
+<!--        <if test="uid!=null and uid!=0">and uid=#{uid}</if>-->
+<!--        <if test="dname!=null">and dname=#{dname}</if>-->
+<!--        <if test="type!=null and type!=0">and type=#{type}</if>-->
+        <if test="delphia!=null and delphia!=''">and delphia=#{delphia}</if>
+        <if test="delphib!=null">and delphib=#{delphib}</if>
+        <if test="delphic!=null">and delphic=#{delphic}</if>
+        <if test="delphid!=null">and delphid=#{delphid}</if>
+    </select>
+    <select id="isDelphiExsite" resultType="com.sicnu.consystem.Pojo.Delphi">
+        select * from delphi where
+        uid=#{uid}
+        and type=#{type}
+        and dname=#{dname}
+        and delphia=#{delphia}
+        and delphib=#{delphib}
+        and delphic=#{delphic}
+        and delphid=#{delphid}
+        limit 1
+    </select>
+    <select id="getDelphiById" resultType="com.sicnu.consystem.Pojo.Delphi">
+        select * from delphi where did=#{did}
+    </select>
+    <resultMap id="resultmap1" type="com.sicnu.consystem.Pojo.Questionnaire">
+        <result property="dpid" column="dpid"></result>
+        <result property="dpname" column="dpname"></result>
+        <result property="createtime" column="createtime"></result>
+        <collection property="delphis" ofType="com.sicnu.consystem.Pojo.Delphi">
+            <id property="did" column="did" javaType="int" jdbcType="INTEGER"></id>
+            <result property="uid" column="dis" jdbcType="INTEGER" javaType="int"></result>
+            <result property="dname" column="dname" javaType="string" jdbcType="VARCHAR"></result>
+            <result property="type" column="type" jdbcType="INTEGER" javaType="int"></result>
+            <result property="delphia" column="delphia" javaType="String" jdbcType="VARCHAR"></result>
+            <result property="delphib" column="delphib" javaType="String" jdbcType="VARCHAR"></result>
+            <result property="delphic" column="delphic" javaType="String" jdbcType="VARCHAR"></result>
+            <result property="delphid" column="delphid" javaType="String" jdbcType="VARCHAR"></result>
+            <result property="createtime" column="createtime" javaType="java.util.Date"  jdbcType="DATE"></result>
+        </collection>
+    </resultMap>
+    <select id="getAllQuestionNaire" resultMap="resultmap1" parameterType="int">
+        select a.*,b.* from delphiqa a,delphi b,delphiqacontent
+        where  a.dpid=delphiqacontent.dpid and b.did=delphiqacontent.did
+        and b.uid=#{uid}
+    </select>
+    <select id="findOneDelphiAnswer" resultType="com.sicnu.consystem.Pojo.DelphiAnswer">
+        select * from delphiqanswer where uid=#{param1} and mid=#{param2} and dpid=#{param3}
+    </select>
+    <select id="getAllDelphiByMid" resultMap="resultmap1" parameterType="int">
+        select distinct a.*,b.* from delphiqa a,delphi b,delphiqacontent c
+        where  a.dpid=c.dpid and b.did=c.did
+        and c.dpid in(select distinct dpid from delphiqanswer where mid=#{mid})
+    </select>
+    <select id="getAnswerByDpis" resultType="java.lang.String">
+        select  answer from delphiqanswer where dpid=#{dpid}
+    </select>
+    <select id="isDelphiUsed" resultType="java.lang.Integer">
+        select count(did) from delphiqacontent where did=#{did}
+    </select>
+
+</mapper>

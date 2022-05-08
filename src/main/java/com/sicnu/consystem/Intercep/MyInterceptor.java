@@ -32,6 +32,8 @@ public class MyInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token=request.getHeader("token");
+        StringBuffer requestURL = request.getRequestURL();
+        System.out.println("requestURL = " + requestURL);
         if (token==null){
             response.setContentType("application/json;charset=utf-8");
             Map<String, Object> res=new HashMap<>();

@@ -1,6 +1,12 @@
 const path = require('path');
+const webpack = require('webpack')
 const ip="localhos"
 module.exports={
+    chainWebpack: config => {
+        config.plugin('provide').use(webpack.ProvidePlugin, [{
+            'window.Quill': 'quill'
+        }]);
+    },
     configureWebpack:{
         resolve:{
             alias:{
@@ -25,6 +31,10 @@ module.exports={
                 pathRewrite: {
                     '^/api': ''//除去代理字段
                 }
+            },
+            '/ws':{
+                ws:true,
+                target:'ws://localhost:8082'
             }
         }
     },

@@ -7,7 +7,7 @@ import actions from './actions'
 import getters from './getters'
 
 const vuexLocal = new VuexPersistence({
-  storage: window.sessionStorage
+  storage: window.  torage
 })
 
 Vue.use(Vuex)

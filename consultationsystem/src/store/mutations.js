@@ -1,6 +1,8 @@
+import Vue from 'vue';
+import Store from '../store/index';
 import{
   GET_TOKEN,
-  GET_USERINFO,
+  SET_USERINFO,
   // UPDATE_USERROLE,
   // UPDATE_USERINFO,
   // UPLOAD_USER_PROGRESS,
@@ -16,11 +18,51 @@ import{
 
 export default{
   [GET_TOKEN](state,payload){
+    console.log(payload)
     state.userToken = payload;
   },
-  [GET_USERINFO](state,payload){
+  [SET_USERINFO](state,payload){
     state.userInfo = payload;
   },
+  // TODO 完成websockt的注册
+  addGroupMessage(state,msg){
+    let message=state.sessions['groupChat'];  
+      if (!message){
+      //   //state.sessions[state.currentHr.username+"#"+msg.to]=[];
+        Vue.set(state.sessions,'groupChat',[]);
+        // state.sessions['groupChat']=[]
+        // Store.commit('SET_SESSIONS')
+        //TODO computed不能动态刷新数据
+        // Vue.set(state,'groupChat',[])
+        // this.$forceUpdate()
+      }
+
+      if(state.sessions['groupChat'][msg.mid]==null){
+        // state.sessions['groupChat'][msg.mid]=[]
+        Vue.set(state.sessions['groupChat'],msg.mid,[])
+      }
+      // state.sessions['groupChat'].push(msg)
+      if(msg.messageTypeId==2){
+        msg.content=JSON.parse(msg.content)
+      }
+      if(msg.messageTypeId==4){
+        msg.content=JSON.parse(msg.content)
+      }
+      if(msg.messageTypeId==6){
+        msg.content=JSON.parse(msg.content)
+      }
+      if(msg.messageTypeId == 7){
+        msg.content=JSON.parse(msg.content)
+      }
+      state.sessions['groupChat'][msg.mid].push({
+        fromId:msg.fromId,
+        fromName:msg.fromName,
+        fromProfile:msg.fromProfile,
+        content:msg.content,
+        messageTypeId:msg.messageTypeId,
+        createTime: msg.createTime,   
+      })
+  }
   // [UPDATE_USERROLE](state,payload){
   //   state.userRole = payload;
   // },

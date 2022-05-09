@@ -77,7 +77,7 @@ export default {
   mounted() {},
 
   methods: {
-    ...mapMutations(['GET_USERINFO']),
+    ...mapMutations(['SET_USERINFO']),
     login() {
       if(this.ruleForm.username==''||this.ruleForm.password==''){
           this.$message({
@@ -96,7 +96,7 @@ export default {
               type:'warning'
             })
           }else{
-            this.GET_USERINFO(res.object)
+            this.SET_USERINFO(res.object)
             this.$router.replace('home')
             this.$message({
               message:'登录成功',
@@ -110,6 +110,7 @@ export default {
             type:'error'
           })
         })
+        //TODO 是否后端登录
         // this.$router.replace("home"); 
         // this.$message({
         //   message:'登录成功',

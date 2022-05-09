@@ -43,6 +43,36 @@ const routes = [
         },{
           path:'message',
           component:()=>import('../views/message.vue')
+        },{
+          path:'quickmeeting',
+          component:()=>import('../views/quickmeeting.vue')
+        },{
+          path:'chat',
+          component:()=>import('../views/Chart.vue')
+        },{
+          path:'allmeestings',
+          component:()=>import('../views/allmeetings.vue')
+        },{
+          path:'meetingmanage',
+          component:()=>import('../views/meetingmanage.vue')
+        },{
+          path:'meetingsummary',
+          component:()=>import('../views/meetingsummary.vue')
+        },{
+          path:'personalsetting',
+          component:()=>import('../views/personalsetting.vue')
+        },{
+          path:'personalcenter',
+          component:()=>import('../views/personalcenter.vue')
+        },{
+          path:'delphi',
+          component:()=>import('../views/Delphi.vue')
+        },{
+          path:'swot',
+          component:()=>import('../views/swot')
+        },{
+          path:'competitive',
+          component:()=>import('../views/Competitive.vue')
         }
         ]
       }
@@ -75,6 +105,10 @@ const routes = [
   {
     path:'/test',
     component:()=>import('../views/test.vue')
+  },
+  {
+    path:'/test1',
+    component:()=>import('../views/test1.vue')
   }
 ]
 

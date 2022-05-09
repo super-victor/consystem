@@ -1,4 +1,4 @@
-// import Store from '@/store/index';
+import Store from '../store/index';
 // import router from '@/router';
 import {Message,MessageBox,Loading} from 'element-ui';
 import axios from 'axios';
@@ -27,7 +27,7 @@ export const NetworkRequest = options => {
     axios.defaults.headers.put['Content-Type'] = postHeaderType || 'application/x-www-form-urlencoded';//设置put方式时的请求头
     axios.defaults.headers.delete['Content-Type'] = postHeaderType || 'application/x-www-form-urlencoded';//设置delete方式时的请求头
 
-    //请求拦截
+    // 请求拦截
     axios.interceptors.request.use(config=>{
       if(throttle){
         loading = Loading.service({
@@ -37,9 +37,9 @@ export const NetworkRequest = options => {
           background: 'rgba(0, 0, 0, 0.7)'
         })
       }
-      // if(Store.state.userToken!==null){
-      //   config.headers['token'] = Store.state.userToken;
-      // }
+      if(Store.state.userToken!==null){
+        config.headers['token'] = Store.state.userToken;
+      }
       return config;
     },error=>{
       Message.error({message: '请求超时,请稍后重试'});
@@ -73,7 +73,10 @@ export const NetworkRequest = options => {
       //     throw new Error(`网络请求错误:${data.msg}`);
       //   }
       // }
-      // if(headers.token) Store.commit('GET_TOKEN',headers.token);
+      if(headers.token) {
+        Store.commit('GET_TOKEN',headers.token);
+        // alert(headers.token)
+      }
       return response;
     },error=>{
       if(throttle){

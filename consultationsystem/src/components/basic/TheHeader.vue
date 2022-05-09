@@ -44,7 +44,7 @@ import {mapMutations,mapState} from 'vuex';
           // imgUrl:require('@/assets/0.png')
           imgUrl:this.userInfo.avatarurl
       };
-    },
+    },  
 
     components: {Avatar},
 
@@ -61,7 +61,7 @@ import {mapMutations,mapState} from 'vuex';
       this.imgUrl=this.userInfo.avatarurl
     },
     methods: {
-      ...mapMutations(['GET_USERINFO','userinfo']),
+      ...mapMutations(['SET_USERINFO','userinfo']),
       test(){
         
       },

@@ -1,6 +1,6 @@
 //****全局用户mutation
 export const GET_TOKEN = 'GET_TOKEN' //获取用户token
-export const GET_USERINFO = 'GET_USERINFO' //获取用户info
+export const SET_USERINFO = 'SET_USERINFO' //获取用户info
 export const UPDATE_USERROLE = 'UPDATE_USERROLE' //修改用户角色
 export const UPDATE_USERINFO = 'UPDATE_USERINFO' //修改用户info
 export const UPLOAD_USER_PROGRESS = 'UPLOAD_USER_PROGRESS' //修改用户进度条

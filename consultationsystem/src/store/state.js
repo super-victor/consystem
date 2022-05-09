@@ -8,6 +8,11 @@ export default{
   // userUploadProgress:0,
   // userToken:null,
   userInfo:{},
+  sessions:{
+    groupChat:[]
+  }, //聊天记录
+  stomp:null
+  // 
   // userRole:'',
   // userAuthority:{
   //   user:{

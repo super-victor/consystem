@@ -11,6 +11,12 @@
             (#{param1},#{m.type},#{m.content})
         </foreach>
     </insert>
+    <insert id="addSwotAnswer">
+        insert into swotanswer (sid,mid,uid,type,content) values
+        <foreach collection="param4" item="m" index="index" separator="," close=";">
+            (#{param1},#{param2},#{param3},#{m.type},#{m.content})
+        </foreach>
+    </insert>
     <select id="getAllSwot" resultType="com.sicnu.consystem.Pojo.Swot">
         select * from swot where uid=#{uid}
     </select>
@@ -38,6 +44,22 @@
         and swot.uid=#{param1} and swot.sid=#{param2}
         and swotcontent.type='threaten';
     </select>
+    <select id="getSwotByid" resultType="com.sicnu.consystem.Pojo.Swot">
+        select * from swot where sid=#{sid}
+    </select>
+    <select id="getSwotAnsewerAdvantege" resultType="java.lang.String">
+        select content from swotanswer where mid=#{param1} and sid=#{param2} and type='advantege'
+    </select>
+    <select id="getSwotAnsewerDisAdvantege" resultType="java.lang.String">
+        select content from swotanswer where mid=#{param1} and sid=#{param2} and type='disadvantege'
+    </select>
+    <select id="getSwotAnsewerOpportunity" resultType="java.lang.String">
+        select content from swotanswer where mid=#{param1} and sid=#{param2} and type='opportunity'
+    </select>
+    <select id="getSwotAnsewerThreaten" resultType="java.lang.String">
+        select content from swotanswer where mid=#{param1} and sid=#{param2} and type='threaten'
+    </select>
+
 
     <resultMap id="swot" type="com.sicnu.consystem.Pojo.Swot">
         <result column="sid" property="sid"></result>

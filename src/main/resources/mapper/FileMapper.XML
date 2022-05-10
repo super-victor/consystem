@@ -5,4 +5,10 @@
     <insert id="addFile" parameterType="com.sicnu.consystem.Pojo.File" keyProperty="fid" useGeneratedKeys="true">
         insert into file (fname,fpath,furl) values (#{fname},#{fpath},#{furl});
     </insert>
+    <select id="getMyfile" resultType="com.sicnu.consystem.Pojo.File">
+        select * from file where fname=#{param1} and fpath=#{param2} and furl=#{param3}
+    </select>
+    <select id="getFileByFid" resultType="com.sicnu.consystem.Pojo.File">
+        select * from file where fid=#{fid}
+    </select>
 </mapper>

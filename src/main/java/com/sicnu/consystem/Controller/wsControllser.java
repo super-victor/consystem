@@ -79,6 +79,7 @@ public class wsControllser {
         //存储对话
         groupMsgContent.setCreateTime(new Date());
         simpMessagingTemplate.convertAndSend("/topic/greetings",groupMsgContent);
+        System.out.println("groupMsgContent = " + groupMsgContent);
         //消息转发
     }
 

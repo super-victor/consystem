@@ -147,6 +147,7 @@ create table swot(
     constraint pk_swot_sid primary key (sid),
     constraint fk_swot_uid foreign key (uid) references user(uid)
 );
+
 drop table if exists swotcontent;
 create table swotcontent(
     scid int auto_increment not null comment 'swot内容Id',
@@ -157,7 +158,19 @@ create table swotcontent(
     constraint pk_swotcontent_scid primary key(scid),
     constraint fk_swot_sid foreign key (sid) references swot(sid)
 );
-
+drop table if exists swotanswer;
+create table swotanswer(
+    said int auto_increment not null comment 'swot回答ID',
+    sid int not null comment 'swotid',
+    mid int not null comment '会议ID',
+    uid int not null  comment '用户Id',
+    type varchar(255) not null comment '类型',
+    content text not null comment '内容',
+    constraint pk_swotanswer_said primary key (said),
+    constraint fk_swotanswer_sid foreign key(sid)references swot(sid),
+    constraint fk_swotanswer_mid foreign key(mid)references meeting(mid),
+    constraint fk_swotanswer_uid foreign key(uid)references user(uid)
+);
 drop table if exists msgcontent;
 create table msgcontent(
     id int not null auto_increment comment '消息Id',
@@ -204,5 +217,18 @@ create table hypoth(
     createtime timestamp not null default current_timestamp comment '创建时间',
     constraint pk_hypoth primary key (hid),
     constraint fk_hypoth_uid foreign key(uid)references user(uid)
+);
+
+drop table if exists hypothanswer;
+create table hypothanswer(
+    haid int not null auto_increment comment '假设回答Id',
+    hid int not null comment '假设Id',
+    mid int not null comment '会议Id',
+    uid int not null  comment '用户Id',
+    answer int not null comment '回答',
+    constraint pk_hypothanswer_haid primary key (haid),
+    constraint fk_hypothanswer_mid foreign key(mid) references meeting(mid),
+    constraint fk_hyporhanswer_hid foreign key(hid)references hypoth(hid),
+    constraint fk_hypothanswer_uid foreign key(uid)references user(uid)
 );
 

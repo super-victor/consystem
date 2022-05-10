@@ -5,6 +5,9 @@
     <insert id="addHypoty">
         insert into hypoth (uid,hname,hypoth,evidence) values (#{uid},#{hname},#{hypoth},#{evidence});
     </insert>
+    <insert id="addHypothAnswer">
+        insert into hypothanswer (hid,uid,answer,mid) values (#{param1},#{param2},#{param3},#{param4});
+    </insert>
     <update id="updateHypoth">
         update hypoth set hname=#{hname},hypoth=#{hypoth},evidence=#{evidence} where hid=#{hid}
     </update>
@@ -13,5 +16,17 @@
     </delete>
     <select id="getAllHypoth" resultType="com.sicnu.consystem.Pojo.Hypoth">
         select * from hypoth;
+    </select>
+    <select id="isHypothAnswer" resultType="java.lang.Integer">
+        select count(*) from hypothanswer where hid=#{param1} and uid=#{param2} and mid=#{param3}
+    </select>
+    <select id="getAllHypothByMid" resultType="com.sicnu.consystem.Pojo.Hypoth">
+        select * from hypoth where hid in (select distinct hid from hypothanswer where mid=#{mid})
+    </select>
+    <select id="getAgreeNum" resultType="java.lang.Integer">
+        select count(answer) from hypothanswer where hid=#{param1} and answer=1 and mid=#{param2}
+    </select>
+    <select id="getDisAgreeNum" resultType="java.lang.Integer">
+         select count(answer) from hypothanswer where hid=#{param1} and answer=0 and mid=#{param2}
     </select>
 </mapper>

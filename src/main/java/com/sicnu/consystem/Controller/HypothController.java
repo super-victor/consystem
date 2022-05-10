@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import sun.invoke.util.BytecodeName;
 
 import javax.annotation.Resource;
 
@@ -68,5 +69,25 @@ public class HypothController {
         BackFrontMessage backFrontMessage = hypothService.deleteHypoth(hid);
         return backFrontMessage;
     }
+
+    @PostMapping("/giveHypothAnswer")
+    public BackFrontMessage giveHypothAnswer(
+            @RequestParam int hid,
+            @RequestParam int uid,
+            @RequestParam int answer,
+            @RequestParam int mid
+    ){
+        BackFrontMessage backFrontMessage = hypothService.giveHypothAnswer(hid, uid, answer,mid);
+        return backFrontMessage;
+    }
+
+    @PostMapping("/HypothDetails")
+    public BackFrontMessage HypothDetails(
+            @RequestParam int mid
+    ){
+        BackFrontMessage backFrontMessage = hypothService.HypothDetails(mid);
+        return backFrontMessage;
+    }
+
 }
 

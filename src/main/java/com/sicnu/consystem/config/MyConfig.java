@@ -24,27 +24,28 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 public class MyConfig extends WebMvcConfigurationSupport {
 
-    @Resource
-    MyInterceptor myInterceptor;
+  @Resource
+  MyInterceptor myInterceptor;
 
 //    @Resource
 //    WebSocketInterceptor webSocketInterceptor;
 
 
-    @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/static/image/**").addResourceLocations("classpath:/static/image/");
-    }
+  @Override
+  protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    registry.addResourceHandler("/static/image/**").addResourceLocations("classpath:/static/image/");
+    registry.addResourceHandler("/static/file/**").addResourceLocations("classpath:/static/file/");
+  }
 
-    @Override
-    protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(myInterceptor).addPathPatterns("/*")
-                .excludePathPatterns("/login")
-        .excludePathPatterns("");
+  @Override
+  protected void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(myInterceptor).addPathPatterns("/*")
+            .excludePathPatterns("/login")
+            .excludePathPatterns("");
 
 //        registry.addInterceptor(webSocketInterceptor).addPathPatterns();
 //        registry.addInterceptor(new loginInterceptor()).addPathPatterns("/login");
-    }
+  }
 }
 

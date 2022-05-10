@@ -4,6 +4,7 @@ import com.sicnu.consystem.Mapper.FileMapper;
 import com.sicnu.consystem.Util.Exception.FileNotFoundException;
 import com.sicnu.consystem.Util.Exception.FileOptionFailureException;
 import com.sicnu.consystem.Util.ServerConfig;
+import com.sun.org.apache.bcel.internal.generic.FNEG;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.sicnu.consystem.Util.Exception.*;
@@ -51,21 +52,24 @@ public class nativeFileUtil implements FileUtil{
 //        return res;
         String res=null;
         File newfile=new File(localPath+"/file/"+multipartFile.getOriginalFilename());
-        if (!newfile.exists()){
-            newfile.mkdir();
-            multipartFile.transferTo(newfile);
-        }else {
-            multipartFile.transferTo(newfile);
-        }
         String fpath=newfile.getAbsolutePath();
         String furl=serverConfig.getStaticResouceUrl()+"/file/"+fpath.substring(fpath.lastIndexOf("\\"),fpath.length());
         com.sicnu.consystem.Pojo.File myFile=new com.sicnu.consystem.Pojo.File();
         myFile.setFname(multipartFile.getOriginalFilename());
         myFile.setFpath(fpath);
         myFile.setFurl(furl);
-        int i = fileMapper.addFile(myFile);
-        System.out.println("i = " + i);
-        return res;
+        if (!newfile.exists()){
+            newfile.mkdir();
+            multipartFile.transferTo(newfile);
+            fileMapper.addFile(myFile);
+        }else {
+            multipartFile.transferTo(newfile);
+        }
+        if (myFile.getFid()==0){
+            myFile=fileMapper.getMyfile(multipartFile.getOriginalFilename(),fpath,furl);
+        }
+//        System.out.println("myFile.toString() = " + myFile.toString());
+        return myFile.getFurl()+"";
     }
 
     @Override
@@ -117,12 +121,40 @@ public class nativeFileUtil implements FileUtil{
                 }
                 os.close();
                 bufferedInputStream.close();
-                return "成功";
+                return "ture";
             }catch (Exception e){
                 throw new FileOptionFailureException("文件操作失败");
             }
         }
     }
 
+    public String doowLoadFile(HttpServletResponse response,int fid) throws FileNotFoundException, FileOptionFailureException {
+        com.sicnu.consystem.Pojo.File Myfile = fileMapper.getFileByFid(fid);
+        File file=new File(Myfile.getFpath());
+        if (!file.exists()){
+            throw new FileNotFoundException("文件未找到");
+        }else {
+            response.reset();
+            response.setContentType("application/octet-stream");
+            response.setCharacterEncoding("utf-8");
+            response.setContentLength((int) file.length());
+            response.setHeader("Content-Disposition", "attachment;filename="+Myfile.getFname());
+            try {
+                byte buff[]=new byte[1024];
+                BufferedInputStream bufferedInputStream=new BufferedInputStream(new FileInputStream(file));
+                OutputStream os=response.getOutputStream();
+                int i=0;
+                while ((i=bufferedInputStream.read(buff))!=-1){
+                    os.write(buff,0,i);
+                    os.flush();
+                }
+                os.close();
+                bufferedInputStream.close();
+                return "ture";
+            }catch (Exception e){
+                throw new FileOptionFailureException("文件操作失败");
+            }
+        }
+    }
 }
 

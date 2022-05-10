@@ -1,9 +1,12 @@
 package com.sicnu.consystem.Controller;
 
 import com.sicnu.consystem.Json.BackFrontMessage;
+import com.sicnu.consystem.Util.Exception.FileNotFoundException;
+import com.sicnu.consystem.Util.Exception.FileOptionFailureException;
 import com.sicnu.consystem.Util.File.FileUtil;
 import com.sicnu.consystem.Util.File.nativeFileUtil;
 import com.sicnu.consystem.Util.StatusEnum;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName FileController
@@ -51,9 +57,24 @@ public class FileController {
     public BackFrontMessage uploadFile(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
+        String MyfileInfo = fileUtil.saveFile(file);
+        Map<String,String>msg=new HashMap<>();
+        msg.put("fid",MyfileInfo);
+        return new BackFrontMessage(StatusEnum.SUCCESS,msg);
+    }
 
-        String s = fileUtil.saveFile(file);
-        return new BackFrontMessage(StatusEnum.FIAL,null);
+//    http://localhost:8082/static/file/\4分钟TABATA燃脂训练.mp4
+
+
+
+    @PostMapping("/downLoadFile")
+    public void downLoadFile(HttpServletResponse response,@RequestParam int fid){
+        System.out.println("fid = " + fid);
+        try {
+            String msg = fileUtil.doowLoadFile(response, fid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

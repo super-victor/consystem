@@ -203,6 +203,9 @@ class ConsystemApplicationTests {
     MyJsonUtil myJsonUtil;
 
     @Resource
+    FileMapper fileMapper;
+
+    @Resource
     DelphiServicelpml delphiServicelpml;
     @Test
     void delphitest(){
@@ -273,9 +276,15 @@ class ConsystemApplicationTests {
 //    MyJsonUtil myJsonUtil;
     @Test
     void jsontest(){
-        String s="[{\"type\":2,\"list\":[3,2]},{\"type\":1,\"value\":1}]";
-        List<Map<String, Object>> maps = myJsonUtil.DelphiAnswerParese(s);
-        System.out.println("maps = " + maps);
+//        String s="[{\"type\":2,\"list\":[3,2]},{\"type\":1,\"value\":1}]";
+//        List<Map<String, Object>> maps = myJsonUtil.DelphiAnswerParese(s);
+//        System.out.println("maps = " + maps);
+//        File myfile = fileMapper.getMyfile("在线会商系统设计与实现.pdf", "D:\\Learning Materials\\web开发\\consystem\\src\\main\\resources\\static\\file\\在线会商系统设计与实现.pdf", "http://localhost:8082/static/file/\\在线会商系统设计与实现.pdf");
+//        System.out.println("myfile = " + myfile);
+
+        Swot swotByid = swotMapper.getSwotByid(6);
+        System.out.println("swotByid = " + swotByid);
+
     }
 
 

@@ -19,5 +19,9 @@ public interface HypothServicelmpl {
     BackFrontMessage updateHypoth(Hypoth hypoth);
 
     BackFrontMessage deleteHypoth(int hid);
+
+    BackFrontMessage giveHypothAnswer(int hid,int uid,int answer,int mid);
+
+    BackFrontMessage HypothDetails(int mid);
 }
 

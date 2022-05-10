@@ -22,5 +22,16 @@ public interface HypothMapper {
     int updateHypoth(Hypoth hypoth);
 
     int deleteHypoth(int hid);
+
+    int addHypothAnswer(int hid,int uid,int answer,int mid);
+
+    int isHypothAnswer(int hid,int uid,int mid);
+
+    List<Hypoth>getAllHypothByMid(int mid);
+
+    int getAgreeNum(int hid,int mid);
+
+    int getDisAgreeNum(int hid,int mid);
+
 }
 

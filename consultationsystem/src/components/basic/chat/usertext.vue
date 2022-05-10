@@ -478,6 +478,11 @@ export default {
 
     // 使用Swot
     useSwot(index, row) {
+      alert("user")
+      SwotApi.useSwot({
+        mid:this.mid,
+        sid:row.sid
+      })
       let msgObj = new Object();
       msgObj.content = JSON.stringify(row);
       console.log(row);

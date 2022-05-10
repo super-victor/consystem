@@ -40,7 +40,7 @@
               <img
                 class="avatar"
                 :src="
-                  entry.fromId == userInfo.avatarurl
+                  entry.fromId == userInfo.uid
                     ? userInfo.avatarurl
                     : entry.fromProfile
                 "
@@ -313,6 +313,7 @@ import { mapState } from "vuex";
 import DelphiApi from '../../../service/Delphi'
 import FileApi from '../../../service/FileService'
 import HypotyApi from '../../../service/Hypoty'
+import SwotApi from '../../../service/Swot'
 export default {
   name: "",
   props: ["mid"],
@@ -354,7 +355,10 @@ export default {
       }, 1);
     },
   },
-  mounted() {},
+  mounted() {
+    console.log('sessions = ', this.sessions)
+    console.log('userInfo = ', this.userInfo)
+  },
 
   methods: {
     // 同意假设
@@ -362,8 +366,9 @@ export default {
       HypotyApi.giveHypothAnswer({
         hid:hid,
         uid:this.userInfo.uid,
-        answer:1
-      }).then(res=>{
+        answer:1,
+        mid:this.mid
+      }).then((res)=>{
         if(res.status==200){
           this.$message({
             message:res.msg,
@@ -381,7 +386,8 @@ export default {
       HypotyApi.giveHypothAnswer({
         hid:hid,
         uid:this.userInfo.uid,
-        answer:0
+        answer:0,
+        mid:this.mid
       }).then(res=>{
         if(res.status==200){
           this.$message({
@@ -419,27 +425,38 @@ export default {
     SubmitSwot(){
       // console.log(this.swotEditAdd)
       // console.log(this.swotEdit )
+        console.log("this.swotEditAdd")
+        console.log(this.swotEditAdd)
+        SwotApi.giveSwotAnswer({
+          mid:this.mid,
+          sid:this.swotEdit.sid,
+          advantege:this.swotEditAdd.advantege.length==0?[""]:this.swotEditAdd.advantege,
+          disadvantege:this.swotEditAdd.disadvantege==0?[""]:this.swotEditAdd.disadvantege,
+          opportunity:this.swotEditAdd.opportunity==0?[""]:this.swotEditAdd.opportunity,
+          threaten:this.swotEditAdd.threaten==0?[""]:this.swotEditAdd.threaten
+        }).then(res=>{
+
+        })
+        this.swotEditAdd={
+          advantege:[],
+          disadvantege:[],
+          opportunity:[],
+          threaten:[]
+        }
       if(this.swotEdit.uid=this.userInfo.uid){
-        console.log(this.swotEdit.advantege)
-          this.swotEdit.advantege.forEach((e)=>{
-            this.swotEditAdd.advantege.push(e)
-          })
-          this.swotEdit.disadvantege.forEach((e)=>{
-            this.swotEditAdd.disadvantege.push(e)
-          })
-          this.swotEdit.threaten.forEach((e)=>{
-            this.swotEditAdd.threaten.push(e)
-          })
-          this.swotEdit.opportunity.forEach((e)=>{
-            this.swotEditAdd.opportunity.push(e)
-          })
-            console.log(this.swotEditAdd)
-          this.swotEditAdd={
-             advantege:[],
-            disadvantege:[],
-            opportunity:[],
-            threaten:[]
-          }
+        // console.log(this.swotEdit.advantege)
+          // this.swotEdit.advantege.forEach((e)=>{
+          //   this.swotEditAdd.advantege.push(e)
+          // })
+          // this.swotEdit.disadvantege.forEach((e)=>{
+          //   this.swotEditAdd.disadvantege.push(e)
+          // })
+          // this.swotEdit.threaten.forEach((e)=>{
+          //   this.swotEditAdd.threaten.push(e)
+          // })
+          // this.swotEdit.opportunity.forEach((e)=>{
+          //   this.swotEditAdd.opportunity.push(e)
+          // })
           // this.swotEditAdd.disadvantege.push(this.swotEdit.disadvantege)
           // this.swotEditAdd.opportunity.push(this.swotEdit.opportunity)
           // this.swotEditAdd.threaten.push(this.swotEdit.threaten)
@@ -448,6 +465,12 @@ export default {
     //回答SWOT
     giveSwotAnswer(content){
       this.swotEdit=content
+      SwotApi.getSwotAnswer({
+        mid:this.mid,
+        sid:content.sid
+      }).then(res=>{
+        this.swotEdit=res.object
+      })
       // console.log(this.swotEdit)
       this.swotEditDialogVisible=!this.swotEditDialogVisible
       // alert("回答")

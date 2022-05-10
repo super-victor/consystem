@@ -61,7 +61,7 @@
 
     <!-- 会议纪要 -->
     <el-dialog
-      title="提示"
+      title="会议纪要"
       :visible.sync="SummarydialogVisible"
       width="81%"
       :before-close="handleClose"
@@ -77,7 +77,6 @@
         @blur="onMouseleave"
         style="height: 350px; width: 96%"
       ></quill-editor>
-      <!-- <div v-else v-html="sunmmary.content"></div> -->
       <div v-else class="ql-container ql-snow">
         <div class="ql-editor" v-html="sunmmary.content"></div>
       </div>
@@ -130,7 +129,7 @@
 
 <!-- 工具使用情况 -->
     <el-dialog
-      title="工具"
+      title="工具使用情况"
       :visible.sync="toolDetailsdialogVisible"
       width="50%"
       :before-close="handleClose"
@@ -139,7 +138,12 @@
     <el-tab-pane label="德尔菲" name="first">
       <delphi-details :mid="toolmid"></delphi-details>
     </el-tab-pane>
-    <el-tab-pane label="SWOT" name="second">SWOT</el-tab-pane>
+    <el-tab-pane label="SWOT" name="second">
+      <swot-details :mid="toolmid"></swot-details>
+    </el-tab-pane>
+    <el-tab-pane label="竞争性假设" name="three">
+      <hypoth-details :mid="toolmid"></hypoth-details>
+    </el-tab-pane>
   </el-tabs>
     </el-dialog>
 
@@ -159,6 +163,8 @@ import { mapState } from "vuex";
 
 import Utils from '../../Utils/util'
 import DelphiDetails from '../ToolDetails/DelphiDetails.vue';
+import SwotDetails from '../ToolDetails/SwotDetails.vue';
+import HypothDetails from '../ToolDetails/HypothDetails.vue';
 export default {
   name: "",
   props: ["historymeeting"],
@@ -302,6 +308,8 @@ export default {
   components: {
     quillEditor,
     DelphiDetails,
+    SwotDetails,
+    HypothDetails,
   },
 
   created() {

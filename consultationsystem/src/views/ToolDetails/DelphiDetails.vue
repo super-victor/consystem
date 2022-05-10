@@ -101,7 +101,6 @@ export default {
           this.QuestionNaires = res.object;
           this.QuestionNaires.forEach((element) => {
             element.createtime = utils.getYMDHMS(element.createtime);
-            // element.delphis.anwser=[]
             element.delphis.forEach((e) => {
               e.anwser = [];
               e.anwser.push(e.delphia);
@@ -110,8 +109,6 @@ export default {
               e.anwser.push(e.delphid);
             });
           });
-          //   this.QuestionnairePreviewObj = this.QuestionNaires[0];
-          console.log("TOOLSHOY");
           console.log(this.QuestionNaires);
         }
       });
@@ -121,6 +118,7 @@ export default {
         mid: this.mid,
       }).then((res) => {
         console.log(res)
+        this.QuestionNaires=[]
         res.object.forEach((e) => {
           // console.log(e)
           this.QuestionNaires.push(e[0]);
@@ -212,7 +210,18 @@ export default {
     },
   },
 
-  watch: {},
+  watch: {
+    mid:{
+      handler(newMid,oldMid){
+          if(newMid!=oldMid){
+            this.mid=newMid
+            this.DelphiDataDetails()
+          }
+      },
+      immediate:true,
+      deep:true
+    }
+  },
 };
 </script>
 <style lang='less' scoped>

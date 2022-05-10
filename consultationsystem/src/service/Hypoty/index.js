@@ -38,8 +38,17 @@ export default{
     },
 
     async giveHypothAnswer(data){
-        const res=new NetworkRequest({
+        const res= await NetworkRequest({
             url:'/giveHypothAnswer',
+            method:'post',
+            data
+        })
+        return res.data
+    },
+
+    async HypothDetails(data){
+        const res=await NetworkRequest({
+            url:'/HypothDetails',
             method:'post',
             data
         })

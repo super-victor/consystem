@@ -334,6 +334,9 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+.el-table{
+  border-radius: 10px;
+}
 .competehead {
   display: flex;
   background-color: white;

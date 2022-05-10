@@ -26,11 +26,17 @@
             <div class="content">
               <div class="info email">
                 <span><p>邮箱:</p></span>
-                <el-input v-model="userInfo.email" :disabled="disable"></el-input>
+                <el-input
+                  v-model="userInfo.email"
+                  :disabled="disable"
+                ></el-input>
               </div>
               <div class="info">
                 <span><p>电话:</p></span>
-                <el-input v-model="userInfo.phone" :disabled="disable"></el-input>
+                <el-input
+                  v-model="userInfo.phone"
+                  :disabled="disable"
+                ></el-input>
               </div>
               <div class="info">
                 <span><p>角色:</p></span>
@@ -54,9 +60,24 @@
                   >
                 </div>
               </div>
+              <div class="info" v-if="!disable">
+                <span><p>密码:</p></span>
+                <el-input
+                  v-model="userInfo.password"
+                  :disabled="disable"
+                  type="password"
+                ></el-input>
+              </div>
               <div class="option">
-                <el-button type="primary" @click="modify">修改</el-button>
-                <el-button v-if="!disable" type="primary" >确认</el-button>
+                <el-button type="primary" v-if="disable" @click="modify"
+                  >修改</el-button
+                >
+                <el-button v-if="!disable" type="primary" @click="disable=!disable"
+                  >取消</el-button>
+                <el-button v-if="!disable" type="primary" @click="submitmodify"
+                  >确认</el-button
+
+                >
               </div>
             </div>
           </div>
@@ -67,7 +88,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
+import UserManage from "../../service/UserManage";
 export default {
   name: "",
   props: [""],
@@ -84,26 +106,46 @@ export default {
       //   uid: "",
       //   avatarUrl: require("../../assets/1.webp"),
       // },
-      disable:true
+      disable: true,
+      rules: {
+        username: [
+          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+        ],
+        email: [
+          { required: true, message: "请输入活动名称", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+        ],
+      },
     };
   },
 
   components: {},
 
   computed: {
-    ...mapState(['userInfo'])
-    },
-
-  beforeMount() {
-
+    ...mapState(["userInfo"]),
   },
+
+  beforeMount() {},
 
   mounted() {},
 
   methods: {
-    modify(){
-      this.disable=!this.disable
-    }
+    modify() {
+      this.disable = !this.disable;
+    },
+    submitmodify() {
+      this.disable = !this.disable;
+      UserManage.modifyUserInfo({
+        username: this.userInfo.username,
+        email: this.userInfo.email,
+        phone: this.userInfo.phone,
+        password: this.userInfo.password,
+      }).then((res) => {
+        this.userInfo = res.object;
+      });
+      // alert(this.userInfo)
+    },
   },
 
   watch: {},
@@ -141,9 +183,9 @@ export default {
     margin-left: 15px;
     width: 250px;
   }
-  .content{
+  .content {
     // background-color: red;
-    .email{
+    .email {
       padding-top: 170px;
     }
   }
@@ -153,23 +195,23 @@ export default {
   align-items: center;
   align-content: center;
   padding-left: 250px;
-  padding-top: 5px ;
-  .isadmin{
+  padding-top: 5px;
+  .isadmin {
     display: flex;
     align-items: center;
     margin-left: 15px;
   }
-  .isforbid{
+  .isforbid {
     display: flex;
     align-items: center;
     margin-left: 15px;
   }
 }
-.option{
+.option {
   margin-top: 20px;
   margin-left: -80px;
 }
-.usernamemodify{
+.usernamemodify {
   width: 150px;
   margin-left: 90px;
 }

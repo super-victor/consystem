@@ -493,4 +493,7 @@ p {
 .content {
   clear: both;
 }
+.el-table{
+  border-radius: 10px;
+}
 </style>

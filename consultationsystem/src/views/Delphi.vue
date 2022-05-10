@@ -124,13 +124,13 @@
         :before-close="handleClose"
         class="questionpreview"
       >
-        <p>问卷名称</p>
-        <el-input v-model="questionnairedpname"></el-input>
+        <p style="font-size:20px  ">问卷名称</p>
+        <el-input v-model="questionnairedpname" class="qname"></el-input>
         <el-checkbox-group v-model="didlist">
-          <div v-for="(item, index) in wenjuan" :key="index">
-            <el-checkbox :label="item.did"
-              >{{ item.dname }}({{ item.dtype }})</el-checkbox
-            >
+          <div v-for="(item, index) in wenjuan" :key="index" class="cehckitem">
+            <el-checkbox :label="item.did" 
+              >{{ item.dname }}({{ item.dtype }})
+              </el-checkbox>
           </div>
         </el-checkbox-group>
         <!-- <div v-for="(item,index) in wenjuan" :key="index">
@@ -142,7 +142,6 @@
       <el-dialog
         :title="QuestionnairePreviewObj.dpname"
         :visible.sync="QuestionnairepreviewVisible"
-        width="30%"
         :before-close="handleClose"
         class="questionpreview"
       >
@@ -151,7 +150,7 @@
             v-for="(item, index) in QuestionnairePreviewObj.delphis"
             :key="index"
           >
-            <div>{{ index + 1 }},{{ item.dname }}</div>
+            <p>{{ index + 1 }}.{{ item.dname }}</p>
             <div v-if="checkType(item.type, '1')">
               <!-- <div v-for="(item,index) in QuestionnairePreviewObj.delphis" :key="index">
                 {{item}}
@@ -676,6 +675,7 @@ export default {
       // line-height: 40px;
       font-size: 20px;
       margin-top: 0;
+      margin-right: 5px;
       margin-bottom: 0;
       p {
         margin: 0;
@@ -703,6 +703,9 @@ export default {
 .el-dialog {
   height: 50px;
 }
+.el-table{
+  border-radius: 10px;
+}
 .el-radio {
   // float: left;
   display: flex;
@@ -713,6 +716,7 @@ export default {
   // display: flex;
   // justify-items: left;
   // justify-content: left;
+  overflow-y: scroll;
   .radiogroup {
     display: flex;
     justify-content: left;
@@ -739,7 +743,17 @@ export default {
 .delphiadd-btn {
   margin-top: 15px;
 }
-// .el-dialog__body {
-//   margin-top: -20px;
-// }
+.el-checkbox{
+    display: flex;
+    justify-items: left;
+}
+.qname{
+  margin-bottom: 15px;
+}
+.el-tabs__nav-scroll{
+  border-radius: 10px;
+}
+.el-tabs__nav{
+  margin-left: 5px;
+}
 </style>

@@ -51,6 +51,21 @@ export default{
             data
         })
         return res.data
+    },
+    async isadmin(){
+        const res=await NetworkRequest({
+            url:'/isadmin',
+            method:'get',
+        })
+        return res.data
+    },
+    async modifyUserInfo(data){
+        const res=await NetworkRequest({
+            url:'/modifyUserInfo',
+            method:'post',
+            data
+        })
+        return res.data
     }
 
 }

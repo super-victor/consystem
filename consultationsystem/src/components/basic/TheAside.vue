@@ -47,7 +47,7 @@
               </router-link>
             </el-menu-item-group>
           </el-submenu>
-          <el-submenu index="3">
+          <el-submenu index="3" v-if="isadmin">
             <template slot="title">
               <i class="el-icon-s-cooperation"></i>
               <span>系统管理</span>
@@ -103,27 +103,46 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import UserManage from '../../service/UserManage';
 export default {
   name: "",
   props: {
-    isadmin: {
-      type: Boolean,
-      require: true,
-    },
+    // isadmin: {
+    //   type: Boolean,
+    //   require: true,
+    // },
   },
   data() {
-    return {};
+    return {
+      isadmin:false,
+    };
   },
 
+  created(){
+    this.getInfo()
+  },
   components: {},
 
-  computed: {},
+  computed: {
+    ...mapState(["userInfo"]),
+  },
 
   beforeMount() {},
 
   mounted() {},
 
-  methods: {},
+  methods: {
+
+    getInfo(){
+      UserManage.isadmin()
+      .then((res) => {
+        this.isadmin=res.object
+      }).catch((err) => {
+        
+      });
+    }
+  },
 
   watch: {},
 };

@@ -35,14 +35,15 @@ public class MyConfig extends WebMvcConfigurationSupport {
   protected void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     registry.addResourceHandler("/static/image/**").addResourceLocations("classpath:/static/image/");
-    registry.addResourceHandler("/static/file/**").addResourceLocations("classpath:/static/file/");
+//    registry.addResourceHandler("/static/file/**").addResourceLocations("classpath:/static/file/");
+//    registry.addResourceHandler("/static/file/**").addResourceLocations("file:D:\\Learning Materials\\web开发\\consystem\\src\\main\\resources\\static\\file");
   }
 
   @Override
   protected void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(myInterceptor).addPathPatterns("/*")
-            .excludePathPatterns("/login")
-            .excludePathPatterns("");
+            .excludePathPatterns("/login");
+
 
 //        registry.addInterceptor(webSocketInterceptor).addPathPatterns();
 //        registry.addInterceptor(new loginInterceptor()).addPathPatterns("/login");

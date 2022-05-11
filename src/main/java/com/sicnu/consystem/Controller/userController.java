@@ -154,5 +154,22 @@ public class userController {
         List<User> allUsers = userService.getAllUsers();
         return new BackFrontMessage(StatusEnum.SUCCESS,"查找所有用户成功",allUsers);
     }
+
+    @GetMapping("/isadmin")
+    public BackFrontMessage isadmin(){
+        BackFrontMessage isadmin = userService.isadmin();
+        return isadmin;
+    }
+
+    @PostMapping("/modifyUserInfo")
+    public BackFrontMessage modifyUserInfo(
+            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String phone,
+            @RequestParam String password
+    ){
+        BackFrontMessage backFrontMessage = userService.modifyUserInfo(username, email, phone, password);
+        return backFrontMessage;
+    }
 }
 

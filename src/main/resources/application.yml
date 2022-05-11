@@ -16,6 +16,16 @@ spring:
       max-file-size: 931775308
       max-request-size: 1000MB
 
+  devtools:
+    restart:
+      enabled: true # 配置热部署
+      additional-paths: src/main/java
+      exclude: WEB-INF/**
+
+
+accessFile:
+  resourceHandler: /download/** #匹配需要拦截的URL
+  location: D:/myfile/file  #本地文件夹
 
 mybatis:
   mapper-locations: classpath:mapper/*.XML

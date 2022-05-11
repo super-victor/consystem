@@ -11,4 +11,7 @@
     <select id="getFileByFid" resultType="com.sicnu.consystem.Pojo.File">
         select * from file where fid=#{fid}
     </select>
+    <select id="getFile" resultType="java.lang.Integer">
+        select count(*) from file where fname=#{fname},fpath=#{fpath},furl=#{furl}
+    </select>
 </mapper>

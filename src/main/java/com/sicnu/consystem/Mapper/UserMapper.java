@@ -27,5 +27,9 @@ public interface UserMapper{
     List<User> getUsersByCondition(String username, int forbid, int isAesc);
 
     List<User>getAllUsers();
+
+    int isadmin(int uid);
+
+    int modifyUserInfo(String username,String emial, String phone, String password,int uid);
 }
 

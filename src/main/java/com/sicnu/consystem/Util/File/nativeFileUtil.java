@@ -5,6 +5,7 @@ import com.sicnu.consystem.Util.Exception.FileNotFoundException;
 import com.sicnu.consystem.Util.Exception.FileOptionFailureException;
 import com.sicnu.consystem.Util.ServerConfig;
 import com.sun.org.apache.bcel.internal.generic.FNEG;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import com.sicnu.consystem.Util.Exception.*;
@@ -30,6 +31,8 @@ public class nativeFileUtil implements FileUtil{
 
     public final static String localPath="D:\\Learning Materials\\web开发\\consystem\\src\\main\\resources\\static";
 
+    public final static String filepath="D:\\myfile";
+
     public String getLocalPath(){
         return localPath;
     }
@@ -51,24 +54,27 @@ public class nativeFileUtil implements FileUtil{
 //        res=newfile.getAbsolutePath();
 //        return res;
         String res=null;
-        File newfile=new File(localPath+"/file/"+multipartFile.getOriginalFilename());
+        File newfile=new File(filepath+"/file/"+multipartFile.getOriginalFilename());
         String fpath=newfile.getAbsolutePath();
-        String furl=serverConfig.getStaticResouceUrl()+"/file/"+fpath.substring(fpath.lastIndexOf("\\"),fpath.length());
+        String furl=serverConfig.getFileUrl()+"/file/"+fpath.substring(fpath.lastIndexOf("\\"),fpath.length());
         com.sicnu.consystem.Pojo.File myFile=new com.sicnu.consystem.Pojo.File();
         myFile.setFname(multipartFile.getOriginalFilename());
         myFile.setFpath(fpath);
         myFile.setFurl(furl);
+        System.out.println("furl = " + furl);
         if (!newfile.exists()){
             newfile.mkdir();
             multipartFile.transferTo(newfile);
+//            int exsitfile = fileMapper.getFile(myFile);
+//            if (exsitfile==0){
+//            }
             fileMapper.addFile(myFile);
-        }else {
-            multipartFile.transferTo(newfile);
         }
+
         if (myFile.getFid()==0){
             myFile=fileMapper.getMyfile(multipartFile.getOriginalFilename(),fpath,furl);
         }
-//        System.out.println("myFile.toString() = " + myFile.toString());
+        System.out.println("myFile = " + myFile.toString());
         return myFile.getFurl()+"";
     }
 

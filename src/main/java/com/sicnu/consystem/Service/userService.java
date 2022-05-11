@@ -1,10 +1,14 @@
 package com.sicnu.consystem.Service;
 
+import com.sicnu.consystem.Json.BackFrontMessage;
 import com.sicnu.consystem.Mapper.UserMapper;
 import com.sicnu.consystem.Pojo.User;
 import com.sicnu.consystem.Util.LogUtil;
+import com.sicnu.consystem.Util.StatusEnum;
 import com.sicnu.consystem.Util.UserAuthenticationUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.yaml.snakeyaml.events.Event;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -62,6 +66,25 @@ public class userService {
 
     public List<User>getAllUsers(){
         return userMapper.getAllUsers();
+    }
+
+    public BackFrontMessage isadmin(){
+        int uid = UserAuthenticationUtil.getCurrentUser().getUid();
+        int isadmin = userMapper.isadmin(uid);
+        if (isadmin==1){
+            return new BackFrontMessage(StatusEnum.SUCCESS,"",isadmin);
+        }
+        return new BackFrontMessage(StatusEnum.SUCCESS,"",isadmin);
+    }
+
+    public BackFrontMessage modifyUserInfo(String username,String emial, String phone, String password){
+        int uid = UserAuthenticationUtil.getCurrentUser().getUid();
+        int i = userMapper.modifyUserInfo(username, emial, phone, password, uid);
+        if (i!=0){
+            User userByUid = userMapper.getUserByUid(uid);
+            return new BackFrontMessage(StatusEnum.SUCCESS,"修改个人信息成功",userByUid);
+        }
+        return new BackFrontMessage(StatusEnum.FIAL,"修改个人信息失败",null);
     }
 }
 

@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface FileMapper {
     int addFile(File file);
 
+    int getFile(File file);
     File getMyfile(String fname,String fpath,String furl);
 
     File getFileByFid(int fid);
